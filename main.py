@@ -17,11 +17,14 @@ blue = (0, 0, 255)
 square_size = 10
 game_speed = 15
 
-def generate_food():
-    food_x = round(random.randrange(0, width - square_size) / 10.0) * 10.0
-    food_y = round(random.randrange(0, height - square_size) / 10.0) * 10.0
+def generate_food(pixels):
+    while True:
+        food_x = round(random.randrange(0, width - square_size) / 10.0) * 10.0
+        food_y = round(random.randrange(0, height - square_size) / 10.0) * 10.0
 
-    return food_x, food_y
+        # Verifica se a comida não está na posição da cobra
+        if [food_x, food_y] not in pixels:
+            return food_x, food_y
 
 def draw_food(size, food_x, food_y):
     pygame.draw.rect(screen, blue, [food_x, food_y, size, size])
@@ -120,7 +123,7 @@ def exec_game():
     snake_size = 1
     pixels = []
 
-    food_x, food_y = generate_food()
+    food_x, food_y = generate_food(pixels)
 
     while not end_game:
         screen.fill(black)
@@ -135,6 +138,7 @@ def exec_game():
                     game_paused = False
                 else:
                     speed_x, speed_y = select_speed(event.key, (speed_x, speed_y))
+                    
         if not game_paused:
             draw_food(square_size, food_x, food_y)
 
@@ -146,7 +150,7 @@ def exec_game():
                         speed_y = 0
                         snake_size = 1
                         pixels = []
-                        food_x, food_y = generate_food()
+                        food_x, food_y = generate_food(pixels)
                 else:
                     pygame.quit()
                     sys.exit()
@@ -169,7 +173,7 @@ def exec_game():
                         speed_y = 0
                         snake_size = 1
                         pixels = []
-                        food_x, food_y = generate_food()
+                        food_x, food_y = generate_food(pixels)
                     else:
                         pygame.quit()
                         sys.exit()
@@ -180,7 +184,7 @@ def exec_game():
 
             if x == food_x and y == food_y:
                 snake_size += 1
-                food_y, food_y = generate_food()
+                food_x, food_y = generate_food(pixels)
         else:
             draw_pause_message()
 
