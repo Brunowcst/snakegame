@@ -34,6 +34,21 @@ def draw_score(score):
     text = font.render(f"Score: {score}", True, green)
     screen.blit(text, [1, 1])
 
+def select_speed(key):
+    if key == pygame.K_DOWN:
+        speed_x = 0
+        speed_y = square_size
+    elif key == pygame.K_UP:
+        speed_x = 0
+        speed_y = -square_size
+    elif key == pygame.K_RIGHT:
+        speed_x = square_size
+        speed_y = 0
+    elif key == pygame.K_RIGHT:
+        speed_x = -square_size
+        speed_y = 0
+    return speed_x, speed_y
+
 def exec_game():
     end_game = False
 
@@ -54,8 +69,13 @@ def exec_game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 end_game = True
+            elif event.type == pygame.KEYDOWN:
+                speed_x, speed_y = select_speed(event.key)
         
         draw_food(square_size, food_x, food_y)
+
+        x += speed_x
+        y += speed_y
 
         # draw snake
         pixels.append([x, y])
@@ -76,6 +96,7 @@ def exec_game():
         if x == food_x and y == food_y:
             snake_size += 1
             food_y, food_y = generate_food()
+        
         clock.tick(game_speed)
 
 exec_game()
