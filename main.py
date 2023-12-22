@@ -41,28 +41,30 @@ def draw_pause_message():
     screen.blit(text, text_rect)
 
 def select_speed(key, current_speed):
-    if key == pygame.K_DOWN:
+    speed_x, speed_y = current_speed
+
+    if key == pygame.K_DOWN and speed_y != -square_size:
         speed_x = 0
         speed_y = square_size
-    elif key == pygame.K_UP:
+    elif key == pygame.K_UP and speed_y != square_size:
         speed_x = 0
         speed_y = -square_size
-    elif key == pygame.K_RIGHT:
+    elif key == pygame.K_RIGHT and speed_x != -square_size:
         speed_x = square_size
         speed_y = 0
-    elif key == pygame.K_LEFT:
+    elif key == pygame.K_LEFT and speed_x != square_size:
         speed_x = -square_size
         speed_y = 0
-    elif key == pygame.K_s:
+    elif key == pygame.K_s and speed_y != -square_size:
         speed_x = 0
         speed_y = square_size
-    elif key == pygame.K_w:
+    elif key == pygame.K_w and speed_y != square_size:
         speed_x = 0
         speed_y = -square_size
-    elif key == pygame.K_d:
+    elif key == pygame.K_d and speed_x != -square_size:
         speed_x = square_size
         speed_y = 0
-    elif key == pygame.K_a:
+    elif key == pygame.K_a and speed_x != square_size:
         speed_x = -square_size
         speed_y = 0
     elif key == pygame.K_p or key == pygame.K_SPACE:
@@ -123,12 +125,10 @@ def exec_game():
 
             draw_score(snake_size - 1)
 
-
             if x == food_x and y == food_y:
                 snake_size += 1
                 food_y, food_y = generate_food()
         else:
-            # Se o jogo estiver pausado, exibe a mensagem de pausa
             draw_pause_message()
 
         pygame.display.update()
