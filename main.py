@@ -47,7 +47,7 @@ def select_speed(key, current_speed):
     elif key == pygame.K_LEFT:
         speed_x = -square_size
         speed_y = 0
-    if key == pygame.K_s:
+    elif key == pygame.K_s:
         speed_x = 0
         speed_y = square_size
     elif key == pygame.K_w:
@@ -56,7 +56,7 @@ def select_speed(key, current_speed):
     elif key == pygame.K_d:
         speed_x = square_size
         speed_y = 0
-    elif key == pygame.K_s:
+    elif key == pygame.K_a:
         speed_x = -square_size
         speed_y = 0
     else:
