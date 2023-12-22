@@ -58,9 +58,11 @@ def exec_game():
         if len(pixels) > snake_size:
             del pixels[0]
 
-        for pixel in pixels:
+        for pixel in pixels[:-1]:
             if pixel == [x, y]:
                 end_game = True
+
+        draw_snake(square_size, pixels)
 
         pygame.display.update()
         clock.tick(game_speed)
