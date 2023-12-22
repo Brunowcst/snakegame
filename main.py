@@ -34,6 +34,12 @@ def draw_score(score):
     text = font.render(f"Score: {score}", True, green)
     screen.blit(text, [1, 1])
 
+def draw_pause_message():
+    font = pygame.font.SysFont("Helvetica", 30)
+    text = font.render("Paused - Press any key to continue", True, white)
+    text_rect = text.get_rect(center=(width // 2, height // 2))
+    screen.blit(text, text_rect)
+
 def select_speed(key, current_speed):
     if key == pygame.K_DOWN:
         speed_x = 0
@@ -58,6 +64,9 @@ def select_speed(key, current_speed):
         speed_y = 0
     elif key == pygame.K_a:
         speed_x = -square_size
+        speed_y = 0
+    elif key == pygame.K_p or key == pygame.K_SPACE:
+        speed_x = 0
         speed_y = 0
     else:
         return current_speed
@@ -88,7 +97,7 @@ def exec_game():
         
         draw_food(square_size, food_x, food_y)
 
-        if x < 0 or x >= width - 1 or y < 0 or y >= height - 1:
+        if x < 0 or x >= width or y < 0 or y >= height:
             end_game = True
 
         x += speed_x
