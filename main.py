@@ -29,6 +29,11 @@ def draw_snake(size, pixels):
     for pixel in pixels:
         pygame.draw.rect(screen, white, [pixel[0], pixel[1], size, size])
 
+def draw_score(score):
+    font = pygame.font.SysFont("Helvetica", 15)
+    text = font.render(f"Score: {score}", True, green)
+    screen.blit(text, [1, 1])
+
 def exec_game():
     end_game = False
 
@@ -63,6 +68,8 @@ def exec_game():
                 end_game = True
 
         draw_snake(square_size, pixels)
+
+        draw_score(snake_size - 1)
 
         pygame.display.update()
         clock.tick(game_speed)
