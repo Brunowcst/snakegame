@@ -72,6 +72,10 @@ def exec_game():
         draw_score(snake_size - 1)
 
         pygame.display.update()
+
+        if x == food_x and y == food_y:
+            snake_size += 1
+            food_y, food_y = generate_food()
         clock.tick(game_speed)
 
 exec_game()
