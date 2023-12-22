@@ -35,7 +35,7 @@ def draw_score(score):
     screen.blit(text, [1, 1])
 
 def draw_pause_message():
-    font = pygame.font.SysFont("Helvetica", 30)
+    font = pygame.font.SysFont("Helvetica", 15)
     text = font.render("Paused - Press any key to continue", True, white)
     text_rect = text.get_rect(center=(width // 2, height // 2))
     screen.blit(text, text_rect)
@@ -74,6 +74,7 @@ def select_speed(key, current_speed):
 
 def exec_game():
     end_game = False
+    game_paused = False
 
     x = width / 2
     y = height / 2
@@ -93,36 +94,44 @@ def exec_game():
             if event.type == pygame.QUIT:
                 end_game = True
             elif event.type == pygame.KEYDOWN:
-                speed_x, speed_y = select_speed(event.key, (speed_x, speed_y))
-        
-        draw_food(square_size, food_x, food_y)
+                if event.key == pygame.K_p or event.key == pygame.K_SPACE:
+                    game_paused = not game_paused
+                elif game_paused:
+                    game_paused = False
+                else:
+                    speed_x, speed_y = select_speed(event.key, (speed_x, speed_y))
+        if not game_paused:
+            draw_food(square_size, food_x, food_y)
 
-        if x < 0 or x >= width or y < 0 or y >= height:
-            end_game = True
-
-        x += speed_x
-        y += speed_y
-
-        # draw snake
-        pixels.append([x, y])
-
-        if len(pixels) > snake_size:
-            del pixels[0]
-
-        for pixel in pixels[:-1]:
-            if pixel == [x, y]:
+            if x < 0 or x >= width or y < 0 or y >= height:
                 end_game = True
 
-        draw_snake(square_size, pixels)
+            x += speed_x
+            y += speed_y
 
-        draw_score(snake_size - 1)
+            # draw snake
+            pixels.append([x, y])
+
+            if len(pixels) > snake_size:
+                del pixels[0]
+
+            for pixel in pixels[:-1]:
+                if pixel == [x, y]:
+                    end_game = True
+
+            draw_snake(square_size, pixels)
+
+            draw_score(snake_size - 1)
+
+
+            if x == food_x and y == food_y:
+                snake_size += 1
+                food_y, food_y = generate_food()
+        else:
+            # Se o jogo estiver pausado, exibe a mensagem de pausa
+            draw_pause_message()
 
         pygame.display.update()
-
-        if x == food_x and y == food_y:
-            snake_size += 1
-            food_y, food_y = generate_food()
-        
         clock.tick(game_speed)
 
 exec_game()
