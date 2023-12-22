@@ -88,6 +88,9 @@ def exec_game():
         
         draw_food(square_size, food_x, food_y)
 
+        if x < 0 or x >= width - 1 or y < 0 or y >= height - 1:
+            end_game = True
+
         x += speed_x
         y += speed_y
 
