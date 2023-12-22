@@ -34,7 +34,7 @@ def draw_score(score):
     text = font.render(f"Score: {score}", True, green)
     screen.blit(text, [1, 1])
 
-def select_speed(key):
+def select_speed(key, current_speed):
     if key == pygame.K_DOWN:
         speed_x = 0
         speed_y = square_size
@@ -44,9 +44,23 @@ def select_speed(key):
     elif key == pygame.K_RIGHT:
         speed_x = square_size
         speed_y = 0
-    elif key == pygame.K_RIGHT:
+    elif key == pygame.K_LEFT:
         speed_x = -square_size
         speed_y = 0
+    if key == pygame.K_s:
+        speed_x = 0
+        speed_y = square_size
+    elif key == pygame.K_w:
+        speed_x = 0
+        speed_y = -square_size
+    elif key == pygame.K_d:
+        speed_x = square_size
+        speed_y = 0
+    elif key == pygame.K_s:
+        speed_x = -square_size
+        speed_y = 0
+    else:
+        return current_speed
     return speed_x, speed_y
 
 def exec_game():
@@ -70,7 +84,7 @@ def exec_game():
             if event.type == pygame.QUIT:
                 end_game = True
             elif event.type == pygame.KEYDOWN:
-                speed_x, speed_y = select_speed(event.key)
+                speed_x, speed_y = select_speed(event.key, (speed_x, speed_y))
         
         draw_food(square_size, food_x, food_y)
 
