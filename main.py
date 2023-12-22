@@ -1,3 +1,4 @@
+import sys
 import pygame
 import random
 
@@ -87,6 +88,25 @@ def select_speed(key, current_speed):
         return current_speed
     return speed_x, speed_y
 
+def game_over_dialog():
+    font = pygame.font.SysFont("Helvetica", 15)
+    text = font.render("Game Over! Play again? (Y/N)", True, white)
+    text_rect = text.get_rect(center=(width // 2, height // 2))
+    screen.blit(text, text_rect)
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_y:
+                    return True
+                elif event.key == pygame.K_n:
+                    pygame.quit()
+                    sys.exit()
+
 def exec_game():
     end_game = False
     game_paused = False
@@ -119,7 +139,17 @@ def exec_game():
             draw_food(square_size, food_x, food_y)
 
             if x < 0 or x >= width or y < 0 or y >= height:
-                end_game = True
+                if game_over_dialog():
+                        x = width / 2
+                        y = height / 2
+                        speed_x = 0
+                        speed_y = 0
+                        snake_size = 1
+                        pixels = []
+                        food_x, food_y = generate_food()
+                else:
+                    pygame.quit()
+                    sys.exit()
 
             x += speed_x
             y += speed_y
@@ -132,7 +162,17 @@ def exec_game():
 
             for pixel in pixels[:-1]:
                 if pixel == [x, y]:
-                    end_game = True
+                    if game_over_dialog():
+                        x = width / 2
+                        y = height / 2
+                        speed_x = 0
+                        speed_y = 0
+                        snake_size = 1
+                        pixels = []
+                        food_x, food_y = generate_food()
+                    else:
+                        pygame.quit()
+                        sys.exit()
 
             draw_snake(square_size, pixels)
 
