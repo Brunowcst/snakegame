@@ -2,7 +2,6 @@ import random
 import pygame
 from configs.configs import width, square_size, height, screen, blue
 
-
 def generate_food(pixels):
     while True:
         food_x = round(random.randrange(0, width - square_size) / 10.0) * 10.0

@@ -43,7 +43,7 @@ def exec_game():
             draw_food(square_size, food_x, food_y)
 
             if x < 0 or x >= width or y < 0 or y >= height:
-                if game_over_dialog():
+                if game_over_dialog(snake_size - 1):
                         x = width / 2
                         y = height / 2
                         speed_x = 0
@@ -66,7 +66,7 @@ def exec_game():
 
             for pixel in pixels[:-1]:
                 if pixel == [x, y]:
-                    if game_over_dialog():
+                    if game_over_dialog(snake_size - 1):
                         x = width / 2
                         y = height / 2
                         speed_x = 0
