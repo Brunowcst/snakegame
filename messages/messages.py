@@ -42,3 +42,30 @@ def game_over_dialog(score):
                 elif event.key == pygame.K_n:
                     pygame.quit()
                     sys.exit()
+
+def game_win_dialog(score):
+    font = pygame.font.SysFont("Helvetica", 15)
+    game_win_text = font.render("Congratulations!", True, white)
+    score_text = font.render(f"Score: {score}", True, white)
+    play_again_text = font.render("Play again? (Y/N)", True, white)
+
+    game_win_rect = game_win_text.get_rect(center=(width // 2, height // 2 - 20))
+    score_rect = score_text.get_rect(center=(width // 2, height // 2))
+    play_again_rect = play_again_text.get_rect(center=(width // 2, height // 2 + 20))
+
+    screen.blit(game_win_text, game_win_rect)
+    screen.blit(score_text, score_rect)
+    screen.blit(play_again_text, play_again_rect)
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_y:
+                    return True
+                elif event.key == pygame.K_n:
+                    pygame.quit()
+                    sys.exit()

@@ -11,4 +11,4 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 
 square_size = 10
-game_speed = 15
+game_speed = 0

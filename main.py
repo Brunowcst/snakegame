@@ -3,16 +3,59 @@ import pygame
 
 from configs.configs import *
 from snake.snake import draw_snake
-from messages.messages import draw_pause_message, draw_score, game_over_dialog
+from messages.messages import *
 from food.food import draw_food, generate_food
 from controls.controls import select_speed
 
 pygame.init()
 pygame.display.set_caption("Snake game")
 
-def exec_game():
+def difficulty_selection():
+    font = pygame.font.SysFont("Helvetica", 20)
+    text_easy = font.render("Easy", True, white)
+    text_medium = font.render("Medium", True, white)
+    text_hard = font.render("Hard", True, white)
+
+    easy_rect = text_easy.get_rect(center=(width // 2, height // 4))
+    medium_rect = text_medium.get_rect(center=(width // 2, height // 2))
+    hard_rect = text_hard.get_rect(center=(width // 2, 3 * height // 4))
+
+    while True:
+        screen.fill(black)
+        screen.blit(text_easy, easy_rect)
+        screen.blit(text_medium, medium_rect)
+        screen.blit(text_hard, hard_rect)
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                if easy_rect.collidepoint(x, y):
+                    return "easy"
+                elif medium_rect.collidepoint(x, y):
+                    return "medium"
+                elif hard_rect.collidepoint(x, y):
+                    return "hard"
+                
+def get_game_speed(difficulty):
+    if difficulty == "easy":
+        return 10
+    elif difficulty == "medium":
+        return 15
+    elif difficulty == "hard":
+        return 20
+    else:
+        # Default speed
+        return 15
+
+def exec_game(difficult):
     end_game = False
     game_paused = False
+
+    game_speed = get_game_speed(difficult)
 
     x = width / 2
     y = height / 2
@@ -85,10 +128,16 @@ def exec_game():
             if x == food_x and y == food_y:
                 snake_size += 1
                 food_x, food_y = generate_food(pixels)
+
+            if snake_size == (width // square_size) * (height // square_size):
+                end_game = True
+                game_win_dialog(snake_size - 1)
         else:
             draw_pause_message()
 
         pygame.display.update()
         clock.tick(game_speed)
 
-exec_game()
+selected_difficulty = difficulty_selection()
+
+exec_game(selected_difficulty)
