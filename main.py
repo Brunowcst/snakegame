@@ -48,7 +48,6 @@ def get_game_speed(difficulty):
     elif difficulty == "hard":
         return 20
     else:
-        # Default speed
         return 15
 
 def exec_game(difficult):
