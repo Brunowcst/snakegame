@@ -8,12 +8,16 @@ OBS: Necessário ter python previamente instalado em sua máquina.
 ```
 git clone https://github.com/Brunowcst/snakegame.git
 ```
-2. Baixe as dependências necessárias(recomendo criar uma [venv](https://www.geeksforgeeks.org/create-virtual-environment-using-venv-python/)):
+2. Entre no diretório:
+```
+cd caminho-onde-o-projeto-se-encontra/snakegame
+```
+3. Baixe as dependências necessárias(recomendo criar uma [venv](https://www.geeksforgeeks.org/create-virtual-environment-using-venv-python/)):
 ```
 pip install -r requirements.txt
 ```
-3. Execute o projeto:
+4. Execute o projeto:
 ```
 python3 main.py
 ```
-4. Pronto, agora é só se divertir :)
+5. Pronto, agora é só se divertir :)
